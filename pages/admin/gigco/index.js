@@ -17,7 +17,8 @@ import {
 
 
 import Admin from "layouts/Admin.js";
-import Header from "components/Headers/HeaderDefault.js";
+import Header from "components/Headers/HeaderAddtrack.js";
+import ModalAddTrack from '../../../components/Modal/addTrackModal';
 
 export async function getServerSideProps(context) {
 
@@ -43,7 +44,14 @@ function Gigco({ tracks }) {
 
     return (
         <>
-            <Header />
+            <Header
+                setModal={setModal}
+            />
+
+            <ModalAddTrack
+                isOpen={modal}
+                setOpen={setModal}
+            />
 
             {/* Page content */}
 
