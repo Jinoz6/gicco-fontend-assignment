@@ -17,7 +17,7 @@ import {
 
 
 import Admin from "layouts/Admin.js";
-import Header from "components/Headers/HeaderAddtrack.js";
+import Header from "components/Headers/HeaderAddTrack.js";
 import ModalAddTrack from '../../../components/Modal/addTrackModal';
 
 export async function getServerSideProps(context) {
