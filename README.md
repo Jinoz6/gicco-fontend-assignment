@@ -71,4 +71,4 @@ Feel free to add animations, custom design, effects and gestures. These extras a
 but are a plus if implemented. It's also possible to add links of your git repositories to the
 README if you already built apps with these widgets.
 
-Visit this project here: 
+Visit this project here: https://gicco-fontend-assignment-i9gjldl4v-jinoz6.vercel.app/admin/dashboard
