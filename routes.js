@@ -29,5 +29,11 @@ var routes = [
     icon: "ni ni-bullet-list-67 text-red",
     layout: "/admin",
   },
+  {
+    path: "/gigco",
+    name: "Gigco Api",
+    icon: "ni ni-diamond text-red",
+    layout: "/admin",
+  },
 ];
 export default routes;
