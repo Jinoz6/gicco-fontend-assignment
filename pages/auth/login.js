@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Router from "next/router";
+import Link from "next/link";
+import useAuth from "../../hook/auth";
 
 // reactstrap components
+
 import {
   Button,
   Card,
@@ -14,11 +18,26 @@ import {
   InputGroup,
   Row,
   Col,
+  Alert
 } from "reactstrap";
+
 // layout for this page
 import Auth from "layouts/Auth.js";
 
+
 function Login() {
+
+  const { user, loginWithGoogle, loginWithFacebook, loginWithEmailPass, error, setError } = useAuth()
+
+  const [email, setEmail] = useState('')
+  const [pass, setPass] = useState('')
+
+  useEffect(() => {
+    if (user) {
+      Router.push("/admin/dashboard");
+    }
+  }, [user])
+
   return (
     <>
       <Col lg="5" md="7">
@@ -31,22 +50,20 @@ function Login() {
               <Button
                 className="btn-neutral btn-icon"
                 color="default"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
+                onClick={loginWithFacebook}
               >
                 <span className="btn-inner--icon">
                   <img
                     alt="..."
-                    src={require("assets/img/icons/common/github.svg")}
+                    src={require("assets/img/icons/common/fb.svg")}
                   />
                 </span>
-                <span className="btn-inner--text">Github</span>
+                <span className="btn-inner--text">Facebook</span>
               </Button>
               <Button
                 className="btn-neutral btn-icon"
                 color="default"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
+                onClick={loginWithGoogle}
               >
                 <span className="btn-inner--icon">
                   <img
@@ -74,6 +91,8 @@ function Login() {
                     placeholder="Email"
                     type="email"
                     autoComplete="new-email"
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
                   />
                 </InputGroup>
               </FormGroup>
@@ -88,24 +107,16 @@ function Login() {
                     placeholder="Password"
                     type="password"
                     autoComplete="new-password"
+                    onChange={(e) => setPass(e.target.value)}
+                    value={pass}
                   />
                 </InputGroup>
               </FormGroup>
-              <div className="custom-control custom-control-alternative custom-checkbox">
-                <input
-                  className="custom-control-input"
-                  id=" customCheckLogin"
-                  type="checkbox"
-                />
-                <label
-                  className="custom-control-label"
-                  htmlFor=" customCheckLogin"
-                >
-                  <span className="text-muted">Remember me</span>
-                </label>
-              </div>
+
+              {error && <Alert color="danger">{error}</Alert>}
+
               <div className="text-center">
-                <Button className="my-4" color="primary" type="button">
+                <Button className="my-4" color="primary" type="button" onClick={() => loginWithEmailPass(email, pass)}>
                   Sign in
                 </Button>
               </div>
@@ -114,22 +125,34 @@ function Login() {
         </Card>
         <Row className="mt-3">
           <Col xs="6">
-            <a
-              className="text-light"
-              href="#pablo"
-              onClick={(e) => e.preventDefault()}
+            <Link
+              href="/auth/forgotpass"
+
             >
-              <small>Forgot password?</small>
-            </a>
+              <a
+                className="text-light"
+                onClick={() => setError("")}
+
+              >
+                <small>Forgot password?</small>
+              </a>
+            </Link>
+
           </Col>
           <Col className="text-right" xs="6">
-            <a
-              className="text-light"
-              href="#pablo"
-              onClick={(e) => e.preventDefault()}
+
+            <Link
+              href="/auth/register"
+
             >
-              <small>Create new account</small>
-            </a>
+              <a
+                className="text-light"
+                onClick={() => setError("")}
+              ><small>Create new account</small></a>
+
+            </Link>
+
+
           </Col>
         </Row>
       </Col>

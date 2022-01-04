@@ -3,12 +3,17 @@ import React from "react";
 // reactstrap components
 import { Card, Container, Row } from "reactstrap";
 // layout for this page
-import Admin from "layouts/Admin.js";
+import AdminLayout from "layouts/Admin.js";
 // core components
 import Header from "components/Headers/HeaderDefault.js";
+import { withProtected } from "../../hook/protectRoutes";
+
 const MapWrapper = () => {
+
   const mapRef = React.useRef(null);
+
   React.useEffect(() => {
+
     let google = window.google;
     let map = mapRef.current;
     let lat = "40.748817";
@@ -97,21 +102,23 @@ const MapWrapper = () => {
 function Maps() {
   return (
     <>
-      <Header />
-      {/* Page content */}
-      <Container className="mt--7" fluid>
-        <Row>
-          <div className="col">
-            <Card className="shadow border-0">
-              <MapWrapper />
-            </Card>
-          </div>
-        </Row>
-      </Container>
+
+      <AdminLayout>
+        <Header />
+        {/* Page content */}
+        <Container className="mt--7" fluid>
+          <Row>
+            <div className="col">
+              <Card className="shadow border-0">
+                <MapWrapper />
+              </Card>
+            </div>
+          </Row>
+        </Container>
+      </AdminLayout>
+
     </>
   );
 }
 
-Maps.layout = Admin;
-
-export default Maps;
+export default withProtected(Maps);

@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import Router from "next/router";
+import useAuth from "../../hook/auth";
 
 // reactstrap components
 import {
@@ -14,11 +17,25 @@ import {
   InputGroup,
   Row,
   Col,
+  Alert
 } from "reactstrap";
+
 // layout for this page
 import Auth from "layouts/Auth.js";
 
 function Register() {
+
+  const [email, setEmail] = useState('')
+  const [pass, setPass] = useState('')
+
+  const { user, createWithEmailPass, loginWithGoogle, loginWithFacebook, error, setError } = useAuth()
+
+  useEffect(() => {
+    if (user) {
+      Router.push("/admin/dashboard");
+    }
+  }, [user])
+
   return (
     <>
       <Col lg="6" md="8">
@@ -31,22 +48,21 @@ function Register() {
               <Button
                 className="btn-neutral btn-icon mr-4"
                 color="default"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
+
+                onClick={loginWithFacebook}
               >
                 <span className="btn-inner--icon">
                   <img
                     alt="..."
-                    src={require("assets/img/icons/common/github.svg")}
+                    src={require("assets/img/icons/common/fb.svg")}
                   />
                 </span>
-                <span className="btn-inner--text">Github</span>
+                <span className="btn-inner--text">Facebook</span>
               </Button>
               <Button
                 className="btn-neutral btn-icon"
                 color="default"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
+                onClick={loginWithGoogle}
               >
                 <span className="btn-inner--icon">
                   <img
@@ -67,16 +83,6 @@ function Register() {
                 <InputGroup className="input-group-alternative mb-3">
                   <InputGroupAddon addonType="prepend">
                     <InputGroupText>
-                      <i className="ni ni-hat-3" />
-                    </InputGroupText>
-                  </InputGroupAddon>
-                  <Input placeholder="Name" type="text" />
-                </InputGroup>
-              </FormGroup>
-              <FormGroup>
-                <InputGroup className="input-group-alternative mb-3">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText>
                       <i className="ni ni-email-83" />
                     </InputGroupText>
                   </InputGroupAddon>
@@ -84,6 +90,8 @@ function Register() {
                     placeholder="Email"
                     type="email"
                     autoComplete="new-email"
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
                   />
                 </InputGroup>
               </FormGroup>
@@ -98,39 +106,29 @@ function Register() {
                     placeholder="Password"
                     type="password"
                     autoComplete="new-password"
+                    onChange={(e) => setPass(e.target.value)}
+                    value={pass}
                   />
                 </InputGroup>
               </FormGroup>
-              <div className="text-muted font-italic">
-                <small>
-                  password strength:{" "}
-                  <span className="text-success font-weight-700">strong</span>
-                </small>
-              </div>
               <Row className="my-4">
                 <Col xs="12">
-                  <div className="custom-control custom-control-alternative custom-checkbox">
-                    <input
-                      className="custom-control-input"
-                      id="customCheckRegister"
-                      type="checkbox"
-                    />
-                    <label
-                      className="custom-control-label"
-                      htmlFor="customCheckRegister"
-                    >
-                      <span className="text-muted">
-                        I agree with the{" "}
-                        <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                          Privacy Policy
-                        </a>
-                      </span>
-                    </label>
-                  </div>
+
+                  <span className="text-muted">
+                    Already have an Account ? {" "}
+                    <Link href="/auth/login">
+                      <a onClick={() => setError("")}>
+                        Sign In
+                      </a>
+
+                    </Link>
+                  </span>
                 </Col>
+
               </Row>
+              {error && <Alert color="danger">{error}</Alert>}
               <div className="text-center">
-                <Button className="mt-4" color="primary" type="button">
+                <Button className="mt-4" color="primary" type="button" onClick={() => createWithEmailPass(email, pass)}>
                   Create account
                 </Button>
               </div>

@@ -9,6 +9,8 @@ import PageChange from "components/PageChange/PageChange.js";
 import "assets/plugins/nucleo/css/nucleo.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "assets/scss/nextjs-argon-dashboard.scss";
+import "../config/firebaseConfig";
+import { AuthProvider } from "../hook/auth";
 
 Router.events.on("routeChangeStart", (url) => {
   console.log(`Loading: ${url}`);
@@ -28,26 +30,26 @@ Router.events.on("routeChangeError", () => {
 });
 
 export default class MyApp extends App {
-  componentDidMount() {
-    let comment = document.createComment(`
+  //   componentDidMount() {
+  //     let comment = document.createComment(`
 
-=========================================================
-* * NextJS Argon Dashboard v1.1.0 based on Argon Dashboard React v1.1.0
-=========================================================
+  // =========================================================
+  // * * NextJS Argon Dashboard v1.1.0 based on Argon Dashboard React v1.1.0
+  // =========================================================
 
-* Product Page: https://www.creative-tim.com/product/nextjs-argon-dashboard
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/nextjs-argon-dashboard/blob/master/LICENSE.md)
+  // * Product Page: https://www.creative-tim.com/product/nextjs-argon-dashboard
+  // * Copyright 2021 Creative Tim (https://www.creative-tim.com)
+  // * Licensed under MIT (https://github.com/creativetimofficial/nextjs-argon-dashboard/blob/master/LICENSE.md)
 
-* Coded by Creative Tim
+  // * Coded by Creative Tim
 
-=========================================================
+  // =========================================================
 
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+  // * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-`);
-    document.insertBefore(comment, document.documentElement);
-  }
+  // `);
+  //     document.insertBefore(comment, document.documentElement);
+  //   }
   static async getInitialProps({ Component, router, ctx }) {
     let pageProps = {};
 
@@ -72,9 +74,15 @@ export default class MyApp extends App {
           <title>NextJS Argon Dashboard by Creative Tim</title>
           <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGgMym0desrWq58RjF-S0kwXXYq7YccMU"></script>
         </Head>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+
+        <AuthProvider>
+
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+
+        </AuthProvider>
+
       </React.Fragment>
     );
   }

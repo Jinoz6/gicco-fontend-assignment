@@ -17,8 +17,12 @@ import {
   Container,
   Media,
 } from "reactstrap";
+import useAuth from "../../hook/auth";
 
 function AdminNavbar({ brandText }) {
+
+  const { logout, user } = useAuth()
+
   return (
     <>
       <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
@@ -52,7 +56,7 @@ function AdminNavbar({ brandText }) {
                   </span>
                   <Media className="ml-2 d-none d-lg-block">
                     <span className="mb-0 text-sm font-weight-bold">
-                      Jessica Jones
+                      {user.displayName}
                     </span>
                   </Media>
                 </Media>
@@ -86,7 +90,7 @@ function AdminNavbar({ brandText }) {
                   </DropdownItem>
                 </Link>
                 <DropdownItem divider />
-                <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
+                <DropdownItem href="#pablo" onClick={logout}>
                   <i className="ni ni-user-run" />
                   <span>Logout</span>
                 </DropdownItem>
