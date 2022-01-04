@@ -52,10 +52,10 @@ function DetailTrack({ track, routeId }) {
 
             let data = {
 
-                name: track.data.name, // Name of the track
-                artist: track.data.artist, // Artist
-                year: track.data.year, // Year :-)
-                cover: track.data.cover // Cover image URL
+                name: track.data.name,
+                artist: track.data.artist,
+                year: track.data.year,
+                cover: track.data.cover,
             }
 
             try {
@@ -67,10 +67,9 @@ function DetailTrack({ track, routeId }) {
                     },
                     body: JSON.stringify(data),
                 })
-                    .then(response => response.json())
-                    .then(data => {
+                    .then(response => {
 
-                        if (data.status === "success") {
+                        if (response.status == 200) {
 
                             alert('Successful delete this track')
                             Router.replace(`/admin/gigco`)
@@ -81,7 +80,9 @@ function DetailTrack({ track, routeId }) {
 
                         }
                     })
+
                     .catch((error) => {
+                        console.log(error)
 
                         alert('Something went wrong can not delete this track')
                         console.error('Error:', error)
